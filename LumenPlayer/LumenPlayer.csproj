@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>LumenPlayer</AssemblyName>
+    <RootNamespace>LumenPlayer</RootNamespace>
+    <Product>Lumen Player</Product>
+    <Version>1.1.0</Version>
+    <ApplicationIcon>Assets\lumen.ico</ApplicationIcon>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LibVLCSharp.WPF" Version="3.9.0" />
+    <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.21" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\lumen.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Resolves YouTube and other web video links into playable streams. -->
+    <None Include="Tools\yt-dlp.exe" CopyToOutputDirectory="PreserveNewest" />
+    <!-- Per-user installer, shipped at the root of the published folder. -->
+    <None Include="Installer\*" Link="%(Filename)%(Extension)" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <!-- Ship the File Explorer thumbnail provider in a Thumbnailer folder next to the app; it loads ..\libvlc. -->
+  <Target Name="PublishThumbnailer" AfterTargets="Publish">
+    <PropertyGroup>
+      <ThumbnailerProps>Configuration=$(Configuration);SelfContained=false;DebugType=none;PublishDir=$([System.IO.Path]::GetFullPath('$(PublishDir)'))Thumbnailer\</ThumbnailerProps>
+    </PropertyGroup>
+    <MSBuild Projects="..\LumenThumbs\LumenThumbs.csproj" Targets="Restore" Properties="$(ThumbnailerProps);_RestorePass=1" />
+    <MSBuild Projects="..\LumenThumbs\LumenThumbs.csproj" Targets="Publish" Properties="$(ThumbnailerProps)" />
+  </Target>
+
+</Project>

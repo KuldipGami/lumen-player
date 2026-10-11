@@ -1,0 +1,6 @@
+bin/
+obj/
+Release/
+.vs/
+*.user
+Sample Videos/

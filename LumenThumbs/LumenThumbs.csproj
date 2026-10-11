@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    File Explorer thumbnail provider for video files. Built as a COM server (LumenThumbs.comhost.dll) that
+    Windows loads into its isolated thumbnail process; frames are decoded with the libvlc shipped with Lumen Player.
+    COM hosting can't be self-contained, so this needs the .NET 8 runtime installed system-wide.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AssemblyName>LumenThumbs</AssemblyName>
+    <RootNamespace>LumenThumbs</RootNamespace>
+    <Version>1.1.0</Version>
+    <PlatformTarget>x64</PlatformTarget>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>false</SelfContained>
+    <EnableComHosting>true</EnableComHosting>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <RollForward>Major</RollForward>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+</Project>
